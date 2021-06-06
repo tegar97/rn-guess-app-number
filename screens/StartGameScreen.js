@@ -12,7 +12,7 @@ import Card from "../components/Card";
 import Input from "../components/input";
 import NumberContainer from "../components/NumberContainer";
 import Colors from "../constant/color";
-
+import TextTitle from "./../components/TitleText";
 const StartGameScreen = ({ onStartGame }) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
@@ -46,7 +46,7 @@ const StartGameScreen = ({ onStartGame }) => {
   if (confirmed) {
     ConfirmedOutput = (
       <Card style={styles.summaryContainer}>
-        <Text>Chosen Number </Text>
+        <Text style={styles.text}>Chosen Number </Text>
         <NumberContainer>{selectedNumber}</NumberContainer>
         <Button
           title="START GAME"
@@ -62,7 +62,7 @@ const StartGameScreen = ({ onStartGame }) => {
       }}
     >
       <View style={styles.screen}>
-        <Text style={styles.title}>Start New Game </Text>
+        <TextTitle style={styles.title}>Start New Game </TextTitle>
         <Card style={styles.inputContainer}>
           <Text>Select a number</Text>
           <Input
