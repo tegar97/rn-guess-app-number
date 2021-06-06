@@ -6,6 +6,7 @@ import {
   Button,
   Alert,
   ScrollView,
+  FlatList,
 } from "react-native";
 import Card from "../components/Card";
 import MainButton from "../components/MainButton";
@@ -26,17 +27,17 @@ const generateRandomBetween = (min, max, exclude) => {
   }
 };
 
-const renderListItem = (value, numOfRound) => (
-  <View key={value} style={styles.listitem}>
-    <BodyText>#{numOfRound}</BodyText>
-    <BodyText>{value}</BodyText>
+const renderListItem = (listLength, itemData) => (
+  <View style={styles.listitem}>
+    <BodyText>#{listLength - itemData.index}</BodyText>
+    <BodyText>{itemData.item}</BodyText>
   </View>
 );
 const GameScreen = (props) => {
   const initialGuess = generateRandomBetween(1, 100, props.userChoice);
 
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
-  const [passGuess, setPassGuess] = useState([initialGuess]);
+  const [passGuess, setPassGuess] = useState([initialGuess.toString()]);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
 
@@ -73,7 +74,7 @@ const GameScreen = (props) => {
     );
 
     setCurrentGuess(nextNumber);
-    setPassGuess((curPassGuess) => [nextNumber, ...curPassGuess]);
+    setPassGuess((curPassGuess) => [nextNumber.toString(), ...curPassGuess]);
   };
 
   return (
@@ -88,12 +89,18 @@ const GameScreen = (props) => {
           <Ionicons name="md-add" size={24} color="white" />
         </MainButton>
       </Card>
-      <View style={styles.list}>
-        <ScrollView>
+      <View style={styles.listContainer}>
+        {/* <ScrollView contentContainerStyle={styles.list}>
           {passGuess.map((guess, index) =>
             renderListItem(guess, passGuess.length - index)
           )}
-        </ScrollView>
+          </ScrollView>*/}
+        <FlatList
+          keyExtractor={(item) => item}
+          data={passGuess}
+          renderItem={renderListItem.bind(this, passGuess.length)}
+          contentContainerStyle={styles.list}
+        />
       </View>
     </View>
   );
@@ -112,8 +119,13 @@ const styles = StyleSheet.create({
     width: 400,
     maxWidth: "90%",
   },
+  listContainer: {
+    width: "60%",
+    flex: 1,
+  },
   list: {
-    width: "80%",
+    flexGrow: 1,
+    justifyContent: "flex-end",
   },
   listitem: {
     borderColor: "#ccc",
@@ -122,7 +134,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: "white",
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    width: "100%",
   },
 });
 
