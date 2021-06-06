@@ -62,7 +62,6 @@ const StartGameScreen = ({ onStartGame }) => {
       }}
     >
       <View style={styles.screen}>
-        <TextTitle style={styles.title}>Start New Game </TextTitle>
         <Card style={styles.inputContainer}>
           <Text>Select a number</Text>
           <Input
@@ -139,6 +138,9 @@ const styles = StyleSheet.create({
   summaryContainer: {
     marginTop: 20,
     alignItems: "center",
+  },
+  text: {
+    fontFamily: "open-sans-bold",
   },
 });
 export default StartGameScreen;

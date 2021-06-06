@@ -1,4 +1,4 @@
-import React from "core-js/library/fn/reflect/es7/metadata";
+import React from "react";
 import { Text, StyleSheet } from "react-native";
 
 const BodyText = (props) => <Text style={styles.Body}>{props.children}</Text>;
@@ -8,3 +8,5 @@ const styles = StyleSheet.create({
     fontFamily: "open-sans-bold",
   },
 });
+
+export default BodyText;
