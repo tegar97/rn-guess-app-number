@@ -7,8 +7,12 @@ const GameOverScreen = (props) => {
       <BodyText>The Game Is Over</BodyText>
       <View style={styles.imageContainer}>
         <Image
+          fadeDuration={300}
           style={styles.image}
-          source={require("./../assets/success.png")}
+          // source={require("./../assets/success.png")}
+          source={{
+            uri: "https://asset.kompas.com/crops/49uR_N10bYZ9rkxzcysKqsa-rlQ=/105x0:800x463/750x500/data/photo/2019/05/24/3654131552.jpg",
+          }}
           resizeMode="cover"
         />
       </View>
