@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -24,6 +24,19 @@ const StartGameScreen = ({ onStartGame }) => {
   const numberInputHandler = (inputText) => {
     setEnteredValue(inputText.replace(/[^0-9]/g, ""));
   };
+  const [ButtonWidth, setButtonWidth] = useState(
+    Dimensions.get("window").width / 4
+  );
+
+  useEffect(() => {
+    const UpdateLayout = () => {
+      setButtonWidth(Dimensions.get("window").width / 4);
+    };
+    Dimensions.addEventListener("change", UpdateLayout);
+    return () => {
+      Dimensions.removeEventListener("change", UpdateLayout);
+    };
+  }, []);
 
   const resetInputHandler = () => {
     setEnteredValue("");
@@ -80,14 +93,14 @@ const StartGameScreen = ({ onStartGame }) => {
                 value={enteredValue}
               />
               <View style={styles.buttonContainer}>
-                <View style={styles.button}>
+                <View style={{ width: ButtonWidth }}>
                   <Button
                     title="Reset"
                     onPress={resetInputHandler}
                     color={Colors.accent}
                   />
                 </View>
-                <View style={styles.button}>
+                <View style={{ width: ButtonWidth }}>
                   <Button
                     title="Confirm"
                     onPress={confirmInputHandler}

@@ -41,6 +41,12 @@ const GameScreen = (props) => {
   const [passGuess, setPassGuess] = useState([initialGuess.toString()]);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
+  const [availableDeviceWidth, setAvailableDeviceWidth] = useState(
+    Dimensions.get("window").width
+  );
+  const [availableDeviceHeight, setAvailableDeviceHeight] = useState(
+    Dimensions.get("window").height
+  );
 
   const { userChoice, onGameOver } = props;
 
@@ -78,10 +84,52 @@ const GameScreen = (props) => {
     setPassGuess((curPassGuess) => [nextNumber.toString(), ...curPassGuess]);
   };
 
+  useEffect(() => {
+    const UpdateLayout = () => {
+      setAvailableDeviceHeight(Dimensions.get("window").height);
+      setAvailableDeviceWidth(Dimensions.get("window").width);
+    };
+    Dimensions.addEventListener("change", UpdateLayout);
+    return () => {
+      Dimensions.removeEventListener("change", UpdateLayout);
+    };
+  }, []);
+
   let listContainerStyle = styles.listContainer;
 
-  if (Dimensions.get("window").width < 350) {
+  if (availableDeviceWidth < 350) {
     listContainerStyle = styles.listContainerBig;
+  }
+
+  if (availableDeviceHeight < 500) {
+    return (
+      <View style={styles.screen}>
+        <Text style={DefaultStyle.title}>Opponent's Guess</Text>
+        <View style={styles.controls}>
+          <MainButton onPress={nextGuessHandler.bind(this, "lower")}>
+            <Ionicons name="md-remove" size={24} color="white" />
+          </MainButton>
+          <NumberContainer>{currentGuess}</NumberContainer>
+
+          <MainButton onPress={nextGuessHandler.bind(this, "greater")}>
+            <Ionicons name="md-add" size={24} color="white" />
+          </MainButton>
+        </View>
+        <View style={listContainerStyle}>
+          {/* <ScrollView contentContainerStyle={styles.list}>
+          {passGuess.map((guess, index) =>
+            renderListItem(guess, passGuess.length - index)
+          )}
+          </ScrollView>*/}
+          <FlatList
+            keyExtractor={(item) => item}
+            data={passGuess}
+            renderItem={renderListItem.bind(this, passGuess.length)}
+            contentContainerStyle={styles.list}
+          />
+        </View>
+      </View>
+    );
   }
 
   return (
@@ -148,6 +196,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+  },
+  controls: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
+    alignItems: "center",
   },
 });
 
