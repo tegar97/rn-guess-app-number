@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -30,7 +30,7 @@ const GameOverScreen = (props) => {
     return () => {
       Dimensions.removeEventListener("change", updateLayout);
     };
-  });
+  }, []);
 
   return (
     <ScrollView>
