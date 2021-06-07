@@ -27,10 +27,12 @@ const StartGameScreen = ({ onStartGame }) => {
   const [ButtonWidth, setButtonWidth] = useState(
     Dimensions.get("window").width / 4
   );
+  const [availableDeviceHeight, setAvailableDeviceHeight] = useState();
 
   useEffect(() => {
     const UpdateLayout = () => {
       setButtonWidth(Dimensions.get("window").width / 4);
+      setAvailableDeviceHeight(Dimensions.get("window").height);
     };
     Dimensions.addEventListener("change", UpdateLayout);
     return () => {
@@ -92,7 +94,7 @@ const StartGameScreen = ({ onStartGame }) => {
                 onChangeText={numberInputHandler}
                 value={enteredValue}
               />
-              <View style={styles.buttonContainer}>
+              <View style={{ ...styles.buttonContainer }}>
                 <View style={{ width: ButtonWidth }}>
                   <Button
                     title="Reset"

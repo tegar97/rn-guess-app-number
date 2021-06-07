@@ -14,6 +14,7 @@ import MainButton from "../components/MainButton";
 import NumberContainer from "../components/NumberContainer";
 import DefaultStyle from "./../constant/default_style";
 import { Ionicons } from "@expo/vector-icons";
+import * as ScreenOrientation from "expo-screen-orientation";
 import BodyText from "../components/BodyText";
 
 const generateRandomBetween = (min, max, exclude) => {
@@ -35,6 +36,8 @@ const renderListItem = (listLength, itemData) => (
   </View>
 );
 const GameScreen = (props) => {
+  //lock screen to potrait
+  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
   const initialGuess = generateRandomBetween(1, 100, props.userChoice);
 
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
@@ -170,7 +173,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: Dimensions.get("window").height > 600 ? 20 : 5,
     width: 400,
     maxWidth: "90%",
   },
